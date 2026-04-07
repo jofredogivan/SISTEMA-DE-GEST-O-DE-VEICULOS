@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Security - Gestão de Frota Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="logo-japan.png" alt="Japan Security" class="main-logo">
+            <h1>SISTEMA DE GESTÃO VEICULAR</h1>
+        </div>
+        <div class="backup-bar">
+            <button onclick="exportarDados()">💾 Backup</button>
+            <button onclick="document.getElementById('importFile').click()">📂 Restaurar</button>
+            <input type="file" id="importFile" style="display:none" onchange="importarDados(event)">
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h3>📝 Registrar Veículo ou Serviço</h3>
+            <form id="form-veiculo" onsubmit="registrarServico(event)">
+                <div class="input-group">
+                    <input type="text" id="placa" placeholder="Placa (Ex: ABC1D23)" required>
+                    <input type="number" id="ano" placeholder="Ano Fab." required>
+                </div>
+                <input type="text" id="modelo" placeholder="Modelo do Veículo" required>
+                
+                <div class="input-group">
+                    <select id="tipo-servico">
+                        <option value="Troca de Óleo">Troca de Óleo</option>
+                        <option value="Manutenção Mecânica">Manutenção Mecânica</option>
+                        <option value="Pneus">Troca de Pneus</option>
+                        <option value="Revisão Geral">Revisão Geral</option>
+                    </select>
+                    <input type="number" id="km-atual" placeholder="KM Atual" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" id="proxima-troca" placeholder="Próxima Troca (KM)">
+                    <input type="text" id="responsavel" placeholder="Responsável/Oficina">
+                </div>
+                
+                <textarea id="descricao" placeholder="Descrição detalhada do serviço ou pendência..."></textarea>
+                
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="em-manutencao"> Veículo na oficina agora?</label>
+                    <label><input type="checkbox" id="is-pendencia"> ⚠️ Marcar como PENDÊNCIA</label>
+                </div>
+
+                <button type="submit" class="btn-save">SALVAR NO SISTEMA</button>
+            </form>
+        </section>
+
+        <section class="card search-section">
+            <h3>🔍 Consultar e Exportar</h3>
+            <div class="input-group">
+                <select id="filtro-veiculo" onchange="gerarRelatorio()">
+                    <option value="todos">Todos os Veículos</option>
+                </select>
+                <select id="filtro-tipo-servico" onchange="gerarRelatorio()">
+                    <option value="todos">Todos os Serviços</option>
+                    <option value="Troca de Óleo">Somente Óleo</option>
+                    <option value="Manutenção Mecânica">Mecânica</option>
+                    <option value="Pneus">Pneus</option>
+                </select>
+            </div>
+            <button onclick="baixarPDF()" class="btn-pdf">📥 GERAR RELATÓRIO PDF</button>
+        </section>
+
+        <div id="relatorio-detalhado"></div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
